@@ -1,0 +1,52 @@
+@font-face {
+  font-family: 'Inter';
+  src: url('./media/fonts/Inter-Regular.eot');
+  src: local('Inter Regular'), local('Inter-Regular'),
+      url('./media/fonts/Inter-Regular.eot?#iefix') format('embedded-opentype'),
+      url('./media/fonts/Inter-Regular.woff2') format('woff2'),
+      url('./media/fonts/Inter-Regular.woff') format('woff'),
+      url('./media/fonts/Inter-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('./media/fonts/Inter-Bold.eot');
+  src: local('Inter Bold'), local('Inter-Bold'),
+      url('./media/fonts/Inter-Bold.eot?#iefix') format('embedded-opentype'),
+      url('./media/fonts/Inter-Bold.woff2') format('woff2'),
+      url('./media/fonts/Inter-Bold.woff') format('woff'),
+      url('./media/fonts/Inter-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+  height: 100%;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.ant-form-item {
+  margin-bottom: 0px;
+}
+
+.ant-btn-primary {
+margin-top: 20px;
+  width: 100%;
+}
+
+#root {
+  height: 100%;
+}

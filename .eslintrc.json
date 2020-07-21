@@ -1,0 +1,43 @@
+{
+  "extends": [
+    "airbnb", "react-app"
+  ],
+  "plugins": ["react"],
+  "parser": "babel-eslint",
+  "env": {
+    "browser": true,
+    "jest": true
+  },
+  "rules": {
+    "max-depth": ["warn", 4],
+    "id-length": ["warn", { "exceptions": ["i", "j"], "min": 2 }],
+    "no-lonely-if": ["error"],
+    "no-plusplus": ["error", {"allowForLoopAfterthoughts": true}],
+    "react/state-in-constructor": ["off"],
+    "jsx-a11y/href-no-hash": ["off"],
+    "react/jsx-props-no-spreading": ["off"],
+    "curly": "error",
+    "react/require-default-props": ["off"],
+    "react/jsx-filename-extension": ["off"],
+    "react/forbid-prop-types": ["off"],
+    "react/no-unused-state": ["off"],
+    "no-restricted-globals": ["off"],
+    "react/prop-types": ["off"],
+    "react/destructuring-assignment": ["off"],
+    "react/prefer-stateless-function": ["off"],
+    "jsx-a11y/media-has-caption": ["off"],
+    "max-len":"off",
+    "consistent-return":"off",
+    "array-callback-return":"off",
+    "import/prefer-default-export": ["off"],
+    "no-unused-vars":"off",
+    "no-shadow": "off",
+    "prefer-promise-reject-errors": "off"
+  },
+  "settings": {
+    "react": {
+      "pragma": "React",
+      "version": "detect"
+    }
+  }
+}
