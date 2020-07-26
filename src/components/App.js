@@ -10,9 +10,12 @@ import Main from './main/main';
 // import ArticleList from './articles/ArticleList';
 import { Content } from './style';
 import HeaderPage from './header/header';
-import { signUpPage, signInPage, mainPage } from '../services/routs';
+import {
+  signUpPage, signInPage, mainPage, addPage,
+} from '../services/routs';
 import { currentUser } from '../store/actions';
 import { getUserToken } from '../utils/helpers';
+import { ArticleCreateNew } from './articles/ArticleCreateNew';
 
 const PrivateRoute = ({ children, redirect, redirectTo }) => (
   <Route
@@ -41,14 +44,17 @@ class App extends React.Component {
         <Content>
           <HeaderPage />
           <Switch>
-            <PrivateRoute exact path={mainPage} redirectTo={signInPage} redirect={this.isAuthenticated()}>
+            <Route exact path={mainPage}>
               <Main />
-            </PrivateRoute>
+            </Route>
             <PrivateRoute exact path={signInPage} redirectTo={mainPage} redirect={!this.isAuthenticated()}>
               <SignIn />
             </PrivateRoute>
             <PrivateRoute exact path={signUpPage} redirectTo={mainPage} redirect={!this.isAuthenticated()}>
               <SignUp />
+            </PrivateRoute>
+            <PrivateRoute exact path={addPage} redirectTo={signInPage} redirect={this.isAuthenticated()}>
+              <ArticleCreateNew />
             </PrivateRoute>
             <Redirect from="/" to={mainPage} />
           </Switch>

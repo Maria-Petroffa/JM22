@@ -4,8 +4,8 @@ export const ArticleWrap = styled.div`
 display: flex;
 justify-content: space-between;
 margin-top: 20px;
-margin-right: 20px;
-margin-left: 20px;
+margin-right: auto;
+margin-left: auto;
 max-width: 941px;
 min-height: 140px;
 background: #FFFFFF;
