@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import SignIn from './form/signIn';
 import SignUp from './form/signUp';
 import Main from './main/main';
+// import ArticleList from './articles/ArticleList';
 import { Content } from './style';
 import HeaderPage from './header/header';
 import { signUpPage, signInPage, mainPage } from '../services/routs';

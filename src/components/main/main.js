@@ -1,11 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { MainWrap } from './style';
+// import { MainWrap } from './style';
 import { currentUser } from '../../store/actions';
+// import ArticleList from '../articles/ArticleList';
+// import { ArticleCreateNew } from '../articles/ArticleCreateNew';
+// import { ArticleEdit } from '../articles/ArticleEdit';
+import { ArticleViewer } from '../articles/ArticleViewer';
 
 class Main extends React.Component {
   render() {
-    return (<MainWrap>Все получилось :)</MainWrap>);
+    return (<ArticleViewer />);
   }
 }
 
