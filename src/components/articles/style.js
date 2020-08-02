@@ -60,7 +60,9 @@ margin-top: 10px;
 
 export const ArticleAutor = styled.div`
 display: flex;
-flex-wrap: nowrap;
+flex-wrap: no-wrap;
+flex-direction: column;
+
 margin-top: 15px;
 margin-right: 15px;
 `;
@@ -68,6 +70,7 @@ margin-right: 15px;
 export const ArticleAutorName = styled.div`
 font-style: normal;
 font-size: 18px;
+margin-right: 10px;
 color: rgba(0, 0, 0, 0.85);
 `;
 
@@ -80,7 +83,10 @@ margin-bottom: 20px;
 `;
 
 export const ArticleAutorDescription = styled.div`
-margin-right: 12px;
+display: flex;
+flex-wrap: no-wrap;
+width: 100%;
+
 `;
 
 export const ArticleAutorFoto = styled.img`
@@ -88,12 +94,26 @@ border-radius: 50%;
 width: 46px;
 height: 46px;
 `;
+export const ArticleAutorButtons = styled.div`
+display: flex;
+flex-wrap: no-wrap;
+margin-top: 20px;
+width: 100%;
+`;
 
 export const ArticleHeader = styled.div`
+
 margin-right: auto;
 margin-left: auto;
 font-weight: bold;
 font-size: 20px;
 margin-bottom: 20px;
 color: #262626;
+`;
+
+export const PaginatorWrap = styled.div`
+width: 500px;
+margin-top: 10px;
+margin-right: auto;
+margin-left: auto;
 `;

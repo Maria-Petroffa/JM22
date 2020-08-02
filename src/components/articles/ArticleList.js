@@ -2,69 +2,88 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Pagination } from 'antd';
 import { uniqueId } from 'lodash';
-import { currentUser } from '../../store/actions';
 import { listArticlesRequest } from '../../services/services';
-import { ArticleCard } from './ArticleCard';
+import ArticleCard from './ArticleCard';
 
-// / список всех статей. Выводится заголовок заметки, имя автора, дата в формате "создана N дней/часов/минут назад" (см date-fns), список тегов и количество лайков. Можно поставить лайк или убрать. При клике на блок - переход на страницу статьи.
+import { PaginatorWrap } from './style';
 
 class ArticleList extends React.Component {
-    state = {};
+  constructor(props) {
+    super(props);
 
-    async componentDidMount() {
-      const articlesList = [];
-      let count = 0;
+    this.state = {
+      currentPage: 1,
+      articles: [],
+    };
+  }
 
-      const createTicketList = (list) => {
-        this.setState({ articles: list });
-      };
+  async componentDidMount() {
+    const offset = (this.state.currentPage - 1) * 10;
+    this.response(offset);
+  }
 
-      async function response() {
-        try {
-          const responseArticles = await listArticlesRequest();
-          const { articles, articlesCount } = responseArticles.data;
-          await articlesList.push(...articles);
-          count += 1;
-          if (count === 1) {
-            createTicketList(articlesList);
-          }
-          if (articlesList.length >= articlesCount) {
-            createTicketList(articlesList);
-            return;
-          }
-          response();
-        } catch (err) {
-          if (err.name === 'Error') { response(); }
-        }
-      }
-      response();
+  response = async (offset) => {
+    const createArticleList = (list) => {
+      this.setState({ articles: list });
+    };
+
+    const createArticleCounnt = (articlesCount) => {
+      this.setState({ articlesCount });
+    };
+    try {
+      await listArticlesRequest(offset)
+        .then(({ data: { articles, articlesCount } }) => {
+          createArticleCounnt(articlesCount);
+          createArticleList(articles);
+        });
+    } catch (err) {
+      if (err.name === 'Error') { this.response(); }
     }
+  }
 
-    onChangePgination = (el) => console.log(el)
+  onChangePgination = (currentPage) => {
+    this.setState({ currentPage });
+    const offset = (currentPage - 1) * 10;
+    this.response(offset);
+  }
 
-    render() {
-      console.log(this.state);
+  onChangeFavorites = () => {
+    const { currentPage } = this.state;
+    const offset = (currentPage - 1) * 10;
+    this.response(offset);
+  }
 
-      const { articles } = this.state;
+renderArticleList = () => {
+  const { articles } = this.state;
+  return articles.map((el) => <ArticleCard articles={el} key={uniqueId()} onChangeFavorites={this.onChangeFavorites} />);
+}
 
-      if (articles !== undefined) {
-        const paginationCount = articles.length;
+renderPaginator = () => {
+  const { articlesCount } = this.state;
 
-        return (
-          <>
-            {articles.map((el) => (<ArticleCard key={uniqueId()} articles={el} />))}
+  return (
+    <PaginatorWrap>
+      <Pagination
+        showSizeChanger={false}
+        pageSize="10"
+        size="small"
+        onChange={this.onChangePgination}
+        total={articlesCount}
+      />
+    </PaginatorWrap>
+  );
+}
 
-            <Pagination size="small" onChange={this.onChangePgination} total={paginationCount} />
-          </>
-        );
-      }
-      return null;
-    }
+render() {
+  return (
+    <>
+      {this.renderArticleList()}
+      {this.renderPaginator()}
+    </>
+  );
+}
 }
 
 const mapStateToProps = (state) => state;
-const mapDispathToProps = (dispatch) => ({
-  checkCurrentUser: (value) => dispatch(currentUser(value)),
-});
 
-export default connect(mapStateToProps, mapDispathToProps)(ArticleList);
+export default connect(mapStateToProps)(ArticleList);

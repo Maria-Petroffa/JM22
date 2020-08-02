@@ -4,6 +4,7 @@ import {
   Redirect, Route, Switch, BrowserRouter as Router,
 } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { createBrowserHistory } from 'history';
 import SignIn from './form/signIn';
 import SignUp from './form/signUp';
 import Main from './main/main';
@@ -15,8 +16,10 @@ import {
 } from '../services/routs';
 import { currentUser } from '../store/actions';
 import { getUserToken } from '../utils/helpers';
-import { ArticleCreateNew } from './articles/ArticleCreateNew';
+import { ArticleCreateNew } from './form/ArticleCreateNew';
+import ArticleViewer from './articles/ArticleViewer';
 
+const customHistory = createBrowserHistory();
 const PrivateRoute = ({ children, redirect, redirectTo }) => (
   <Route
     render={() => (redirect ? (children) : (<Redirect to={redirectTo} />))}
@@ -40,13 +43,11 @@ class App extends React.Component {
 
   render() {
     return (
-      <Router>
+      <Router history={customHistory}>
         <Content>
           <HeaderPage />
           <Switch>
-            <Route exact path={mainPage}>
-              <Main />
-            </Route>
+            <Route exact path={mainPage} render={({ history }) => <Main history={history} />} />
             <PrivateRoute exact path={signInPage} redirectTo={mainPage} redirect={!this.isAuthenticated()}>
               <SignIn />
             </PrivateRoute>
@@ -54,8 +55,9 @@ class App extends React.Component {
               <SignUp />
             </PrivateRoute>
             <PrivateRoute exact path={addPage} redirectTo={signInPage} redirect={this.isAuthenticated()}>
-              <ArticleCreateNew />
+              <ArticleCreateNew history={customHistory} />
             </PrivateRoute>
+            <Route path="/articles/:slug" render={({ match, history }) => <ArticleViewer match={match.params.slug} history={history} />} />
             <Redirect from="/" to={mainPage} />
           </Switch>
         </Content>

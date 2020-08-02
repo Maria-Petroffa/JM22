@@ -4,3 +4,4 @@ export const authenticationUserPath = '/users/login';
 export const registrationUserPath = '/users';
 export const listArticlesPath = '/articles';
 export const getArticlesPath = (slug) => `/articles/${slug}`;
+export const favoriteArticlesPath = (slug) => `/articles/${slug}/favorite`;
