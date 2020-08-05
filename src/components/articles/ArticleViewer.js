@@ -40,9 +40,7 @@ showDeleteConfirm =(el) => {
     onOk() {
       deletedArticle(el);
     },
-    onCancel() {
-      console.log('Cancel');
-    },
+    onCancel() {},
   });
 }
 
@@ -108,7 +106,6 @@ renderArticleFavorites = () => {
 
 render() {
   if (this.state === 0) { return null; }
-  console.log(this.state);
 
   const { article } = this.state;
   const {

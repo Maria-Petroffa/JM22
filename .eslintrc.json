@@ -32,7 +32,9 @@
     "import/prefer-default-export": ["off"],
     "no-unused-vars":"off",
     "no-shadow": "off",
-    "prefer-promise-reject-errors": "off"
+    "prefer-promise-reject-errors": "off",
+    "no-param-reassign": "off",
+    "no-return-await": "off"
   },
   "settings": {
     "react": {

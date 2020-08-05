@@ -2,15 +2,13 @@ import React from 'react';
 import { Formik } from 'formik';
 import { Form, Input, Button } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { uniqueId } from 'lodash';
 import { getArticleRequest, updateArticleRequest } from '../../services/services';
 import {
   Label, FormHeader, FormTitle,
   FormWrapArticle,
 } from './style';
-
-import {
-  viwerPage, mainPage
-} from '../../services/routs';
+import { mainPage } from '../../services/routs';
 
 export class ArticleEdit extends React.Component {
   constructor(props) {
@@ -29,13 +27,15 @@ export class ArticleEdit extends React.Component {
   }
 
   renderTagList = (props) => {
-    const { tagList, title, description, body } = props.values;
+    const {
+      tagList, title, description, body,
+    } = props.values;
     return (
       <>
         {tagList.map((field, index) => (
           <Form.Item
             required={false}
-            key={index}
+            key={uniqueId()}
           >
             <Form.Item
               validateTrigger={['onChange', 'onBlur']}
@@ -63,8 +63,9 @@ export class ArticleEdit extends React.Component {
               onClick={() => {
                 const newValue = tagList;
                 newValue.splice(index, 1);
-                props.setValues({ tagList: newValue, title, description, body });
-                console.log(props.values)
+                props.setValues({
+                  tagList: newValue, title, description, body,
+                });
               }}
             />
           </Form.Item>
@@ -77,7 +78,9 @@ export class ArticleEdit extends React.Component {
             onClick={() => {
               const newValue = tagList;
               newValue.push('');
-              props.setValues({ tagList: newValue, title, description, body });
+              props.setValues({
+                tagList: newValue, title, description, body,
+              });
             }}
             style={{ width: '60%' }}
           >
@@ -103,9 +106,8 @@ export class ArticleEdit extends React.Component {
       <Formik
         initialValues={initialValues}
         onSubmit={(values) => {
-          
-          const article = {article: values}
-          console.log(article)
+          const article = { article: values };
+
           const response = async () => await updateArticleRequest(this.props.match, article);
           try {
             response();
