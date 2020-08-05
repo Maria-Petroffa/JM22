@@ -11,6 +11,12 @@ import {
 
 import { getUserToken } from '../utils/helpers';
 
+axios.interceptors.request.use((config) => {
+  const token = getUserToken();
+  if (token !== null) { config.headers.Authorization = `Token ${token}`; }
+  return config;
+});
+
 export const registrationUserRequest = (value) => {
   const requestParameters = {
     url: registrationUserPath,
@@ -33,12 +39,10 @@ export const authentificationUserRequest = (value) => {
 };
 
 export const currentUserRequest = () => {
-  const token = getUserToken();
   const requestParameters = {
     url: currentUserPath,
     method: 'get',
     baseURL: pathAPI,
-    headers: { Authorization: `Token ${token}` },
   };
   return axios(requestParameters);
 };
@@ -57,24 +61,20 @@ export const listArticlesRequest = (offset = 0, limit = 10) => {
 };
 
 export const newArticleRequest = (value) => {
-  const token = getUserToken();
   const requestParameters = {
     url: listArticlesPath,
     method: 'post',
     baseURL: pathAPI,
-    headers: { Authorization: `Token ${token}` },
     data: value,
   };
   return axios(requestParameters);
 };
 
 export const getArticleRequest = (slug) => {
-  const token = getUserToken();
   const requestParameters = {
     url: getArticlesPath(slug),
     method: 'get',
     baseURL: pathAPI,
-    headers: { Authorization: `Token ${token}` },
   };
   return axios(requestParameters);
 };
@@ -89,46 +89,38 @@ export const getArticleViewerRequest = (slug) => {
 };
 
 export const updateArticleRequest = (slug, value) => {
-  const token = getUserToken();
   const requestParameters = {
     url: getArticlesPath(slug),
     method: 'put',
     baseURL: pathAPI,
-    headers: { Authorization: `Token ${token}` },
     data: value,
   };
   return axios(requestParameters);
 };
 
 export const deleteArticleRequest = (slug) => {
-  const token = getUserToken();
   const requestParameters = {
     url: getArticlesPath(slug),
     method: 'delete',
     baseURL: pathAPI,
-    headers: { Authorization: `Token ${token}` },
   };
   return axios(requestParameters);
 };
 
 export const favoriteArticleRequest = (slug) => {
-  const token = getUserToken();
   const requestParameters = {
     url: favoriteArticlesPath(slug),
     method: 'post',
     baseURL: pathAPI,
-    headers: { Authorization: `Token ${token}` },
   };
   return axios(requestParameters);
 };
 
 export const unfavoriteArticleRequest = (slug) => {
-  const token = getUserToken();
   const requestParameters = {
     url: favoriteArticlesPath(slug),
     method: 'delete',
     baseURL: pathAPI,
-    headers: { Authorization: `Token ${token}` },
   };
   return axios(requestParameters);
 };

@@ -12,11 +12,12 @@ import Main from './main/main';
 import { Content } from './style';
 import HeaderPage from './header/header';
 import {
-  signUpPage, signInPage, mainPage, addPage,
+  signUpPage, signInPage, mainPage, addPage, viwerPage, editPage,
 } from '../services/routs';
 import { currentUser } from '../store/actions';
 import { getUserToken } from '../utils/helpers';
 import { ArticleCreateNew } from './form/ArticleCreateNew';
+import { ArticleEdit } from './form/ArticleEdit';
 import ArticleViewer from './articles/ArticleViewer';
 
 const customHistory = createBrowserHistory();
@@ -57,7 +58,8 @@ class App extends React.Component {
             <PrivateRoute exact path={addPage} redirectTo={signInPage} redirect={this.isAuthenticated()}>
               <ArticleCreateNew history={customHistory} />
             </PrivateRoute>
-            <Route path="/articles/:slug" render={({ match, history }) => <ArticleViewer match={match.params.slug} history={history} />} />
+            <Route path={editPage} render={({ match, history }) => <ArticleEdit match={match.params.slug} history={history} />} />
+            <Route path={viwerPage} render={({ match, history }) => <ArticleViewer match={match.params.slug} history={history} />} />
             <Redirect from="/" to={mainPage} />
           </Switch>
         </Content>

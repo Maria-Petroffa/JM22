@@ -4,13 +4,11 @@ import { Pagination } from 'antd';
 import { uniqueId } from 'lodash';
 import { listArticlesRequest } from '../../services/services';
 import ArticleCard from './ArticleCard';
-
 import { PaginatorWrap } from './style';
 
 class ArticleList extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       currentPage: 1,
       articles: [],

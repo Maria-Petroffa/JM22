@@ -86,11 +86,11 @@ export const ArticleAutorDescription = styled.div`
 display: flex;
 flex-wrap: no-wrap;
 width: 100%;
-
 `;
 
 export const ArticleAutorFoto = styled.img`
 border-radius: 50%;
+margin-left: auto;
 width: 46px;
 height: 46px;
 `;

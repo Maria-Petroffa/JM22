@@ -1,4 +1,3 @@
-import { createActions, createAction } from 'redux-actions';
 import {
   registrationUserRequest,
   authentificationUserRequest,
@@ -7,14 +6,6 @@ import {
 import {
   setUserToken, createUserErrorMessage, authentificationUserErrorMessage,
 } from '../utils/helpers';
-
-// export const { logInUserRequest, logInUserSuccess, logInUserFailure } = createActions(
-//   'LOGIN_USER_REQUEST',
-//   {
-//     LOGIN_USER_SUCCESS: (response) => ({ response }),
-//     LOGIN_USER_FAILURE: (response) => ({ response }),
-//   },
-// );
 
 export const logInUserRequest = () => ({ type: 'LOGIN_USER_REQUEST' });
 export const logInUserSuccess = (response) => ({
@@ -26,14 +17,6 @@ export const logInUserFailure = (response) => ({
   response,
 });
 
-// export const { createUserRequest, createUserSuccess, createUserFailure } = createActions(
-//   'CREATE_USER_REQUEST',
-//   {
-//     CREATE_USER_SUCCESS: (response) => ({ response }),
-//     CREATE_USER_FAILURE: (response) => ({ response }),
-//   },
-// );
-
 export const createUserRequest = () => ({ type: 'CREATE_USER_REQUEST' });
 export const createUserSuccess = (response) => ({
   type: 'CREATE_USER_SUCCESS',
@@ -44,14 +27,6 @@ export const createUserFailure = (response) => ({
   response,
 });
 
-// export const { checkCurrentUserRequest, checkCurrentUserSuccess, checkCurrentUserFailure } = createActions(
-//   'CHECK_USER_REQUEST',
-//   {
-//     CHECK_USER_SUCCESS: (response) => ({ response }),
-//     CHECK_USER_FAILURE: (response) => ({ response }),
-//   },
-// );
-
 export const checkCurrentUserRequest = () => ({ type: 'CHECK_USER_REQUEST' });
 export const checkCurrentUserSuccess = (response) => ({
   type: 'CHECK_USER_SUCCESS',
@@ -61,8 +36,6 @@ export const checkCurrentUserFailure = (response) => ({
   type: 'CHECK_USER_FAILURE',
   response,
 });
-
-// export const logOutUser = createAction('LOGOUT_USER');
 
 export const logOutUser = () => ({ type: 'LOGOUT_USER' });
 

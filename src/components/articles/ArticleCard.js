@@ -2,9 +2,7 @@ import React from 'react';
 import { Rate, Tag } from 'antd';
 import { HeartOutlined } from '@ant-design/icons';
 import { parseISO, intervalToDuration, formatDuration } from 'date-fns';
-import {
-  Link,
-} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
   ArticleWrap, ArticleContentFavoritesCount, ArticleCreatedCount, ArticleAutorFoto, ArticleAutorDescription, ArticleAutorName, ArticleContentFavorites, ArticleContent, ArticleAutor, ArticleContentTitle, ArticleContentTag, ArticleContentDescription,

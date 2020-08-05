@@ -120,8 +120,8 @@ export const ArticleCreateNew = ({ history }) => {
                         className="dynamic-delete-button"
                         style={{ margin: '0 8px' }}
                         onClick={() => {
-                        remove(field.name);
-                      }}
+                          remove(field.name);
+                        }}
                       />
                     ) : null}
                   </Form.Item>

@@ -5,16 +5,15 @@ import {
 import { HeartOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import { parseISO, intervalToDuration, formatDuration } from 'date-fns';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import {
   ArticleWrap, ArticleContentFavoritesCount, ArticleContentBody, ArticleCreatedCount, ArticleAutorFoto, ArticleAutorButtons, ArticleAutorDescription, ArticleAutorName, ArticleContentFavorites, ArticleContent, ArticleAutor, ArticleContentTitle, ArticleContentTag, ArticleContentDescription,
 } from './style';
 import {
   getArticleViewerRequest, deleteArticleRequest, favoriteArticleRequest, unfavoriteArticleRequest,
 } from '../../services/services';
-// import {favoriteArticle} from '../../utils/helpers'
 
 const { confirm } = Modal;
-
 class ArticleViewer extends React.Component {
   constructor(props) {
     super(props);
@@ -47,10 +46,13 @@ showDeleteConfirm =(el) => {
   });
 }
 
+showEditeConfirm =() => {
+  this.props.history.push(`/articles/${this.state.article.slug}/edit`);
+}
+
 createdData = (createdAt) => {
   const start = parseISO(createdAt);
   const end = new Date();
-
   const { days, hours, minutes } = intervalToDuration({ start, end });
 
   return `created ${formatDuration({ days, hours, minutes })} ago`;
@@ -67,13 +69,18 @@ favoriteArticleChange = () => {
 
 renderArticleButton = () => {
   const { currentUser } = this.props;
+  const { article: { slug } } = this.state;
   if (currentUser === 0) { return null; }
   if (currentUser.username !== this.state.article.author.username) { return null; }
   return (
     <ArticleAutorButtons>
+
       <Button type="dashed">
-        Edit
+        <Link to={`/articles/${slug}/edit`}>
+          Edit
+        </Link>
       </Button>
+
       <Button onClick={() => this.showDeleteConfirm(this.state.article.slug)} type="dashed">
         Delete
       </Button>
@@ -108,7 +115,6 @@ render() {
     title, tagList, description, author, createdAt, body,
   } = article;
   return (
-
     <ArticleWrap>
       <ArticleContent>
         <ArticleContentTitle>{title}</ArticleContentTitle>
@@ -125,9 +131,7 @@ render() {
           <ArticleAutorName>{author.username}</ArticleAutorName>
           <ArticleAutorFoto src={author.image} />
         </ArticleAutorDescription>
-
         {this.renderArticleButton()}
-
       </ArticleAutor>
     </ArticleWrap>
   );
