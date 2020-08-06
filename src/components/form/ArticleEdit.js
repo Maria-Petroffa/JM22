@@ -111,8 +111,7 @@ export class ArticleEdit extends React.Component {
           const response = async () => await updateArticleRequest(this.props.match, article);
           try {
             response();
-            this.props.history.push(mainPage);
-            window.location.reload();
+            this.props.history.replace(mainPage);
           } catch (err) {
             if (err.name === 'Error') { response(); }
           }

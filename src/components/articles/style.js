@@ -13,6 +13,7 @@ border-radius: 5px;
 `;
 
 export const ArticleContent = styled.div`
+flex-grow: 1;
 margin-top: 15px;
 margin-left: 20px;
 margin-right: 20px;

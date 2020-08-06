@@ -25,7 +25,8 @@ class ArticleCard extends React.Component {
     return `created ${formatDuration({ days, hours, minutes })} ago`;
   }
 
-  favoriteArticleChange = () => {
+  favoriteArticleChange = (event) => {
+    //
     const { slug, favorited } = this.state;
     const { onChangeFavorites } = this.props;
     const resp = async (func) => (
@@ -58,25 +59,31 @@ class ArticleCard extends React.Component {
       title, tagList, description, author, createdAt, slug,
     } = articles;
     return (
+
       <ArticleWrap id={slug}>
+
         <ArticleContent>
           <ArticleContentTitle>{title}</ArticleContentTitle>
           {this.renderArticleFavorites()}
-          <ArticleContentTag>
-            {tagList.map((el) => <Tag key={el} color="default">{el}</Tag>)}
-          </ArticleContentTag>
           <Link to={`/articles/${slug}`}>
+            <ArticleContentTag>
+              {tagList.map((el) => <Tag key={el} color="default">{el}</Tag>)}
+            </ArticleContentTag>
+
             <ArticleContentDescription>{description}</ArticleContentDescription>
             <ArticleCreatedCount>{this.createdData(createdAt)}</ArticleCreatedCount>
           </Link>
         </ArticleContent>
-        <ArticleAutor>
-          <ArticleAutorDescription>
-            <ArticleAutorName>{author.username}</ArticleAutorName>
-          </ArticleAutorDescription>
-          <ArticleAutorFoto src={author.image} />
-        </ArticleAutor>
+        <Link to={`/articles/${slug}`}>
+          <ArticleAutor>
+            <ArticleAutorDescription>
+              <ArticleAutorName>{author.username}</ArticleAutorName>
+            </ArticleAutorDescription>
+            <ArticleAutorFoto src={author.image} />
+          </ArticleAutor>
+        </Link>
       </ArticleWrap>
+
     );
   }
 }

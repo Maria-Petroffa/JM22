@@ -12,6 +12,7 @@ import {
 import {
   getArticleViewerRequest, deleteArticleRequest, favoriteArticleRequest, unfavoriteArticleRequest,
 } from '../../services/services';
+import { mainPage } from '../../services/routs';
 
 const { confirm } = Modal;
 class ArticleViewer extends React.Component {
@@ -27,9 +28,9 @@ class ArticleViewer extends React.Component {
 
 showDeleteConfirm =(el) => {
   const deletedArticle = (el) => {
-    const { history: { push } } = this.props;
+    const { history } = this.props;
     deleteArticleRequest(el);
-    push('/');
+    history.replace(mainPage);
   };
   confirm({
     title: 'Are you sure to delete this article?',

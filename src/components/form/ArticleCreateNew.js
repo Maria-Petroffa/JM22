@@ -9,6 +9,7 @@ import {
   Label, FormHeader, FormTitle,
   FormWrapArticle,
 } from './style';
+import { mainPage } from '../../services/routs';
 
 export const ArticleCreateNew = ({ history }) => {
   const formik = useFormik({
@@ -31,16 +32,13 @@ export const ArticleCreateNew = ({ history }) => {
         },
       };
 
-      const response = async () => {
-        try {
-          await newArticleRequest(newArticle)
-            .then(() => history.push('/'))
-            .then(() => window.location.reload());
-        } catch (err) {
-          if (err.name === 'Error') { response(); }
-        }
-      };
-      response();
+      const response = async () => await newArticleRequest(newArticle);
+      try {
+        response();
+        history.replace(mainPage);
+      } catch (err) {
+        if (err.name === 'Error') { response(); }
+      }
     },
   });
 

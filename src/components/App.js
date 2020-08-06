@@ -55,9 +55,14 @@ class App extends React.Component {
             <PrivateRoute exact path={signUpPage} redirectTo={mainPage} redirect={!this.isAuthenticated()}>
               <SignUp />
             </PrivateRoute>
-            <PrivateRoute exact path={addPage} redirectTo={signInPage} redirect={this.isAuthenticated()}>
+            {/* <PrivateRoute exact path={addPage} redirectTo={signInPage} redirect={this.isAuthenticated()}>
               <ArticleCreateNew history={customHistory} />
-            </PrivateRoute>
+            </PrivateRoute> */}
+            <Route
+              exact
+              path={addPage}
+              render={({ match, history }) => (this.isAuthenticated() ? (<ArticleCreateNew history={history} />) : (<Redirect to={signInPage} />))}
+            />
             <Route path={editPage} render={({ match, history }) => <ArticleEdit match={match.params.slug} history={history} />} />
             <Route path={viwerPage} render={({ match, history }) => <ArticleViewer match={match.params.slug} history={history} />} />
             <Redirect from="/" to={mainPage} />
