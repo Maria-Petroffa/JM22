@@ -23,7 +23,6 @@ class ArticleList extends React.Component {
   spinner = () => <SpinnerWrap><Spin tip="Loading..." /></SpinnerWrap> ;
 
   getArticleList = async (offset) => {
-    this.setState({ articles: [] });
     const createArticleList = (list) => {
       this.setState({ articles: list });
     };
@@ -43,6 +42,7 @@ class ArticleList extends React.Component {
   }
 
   onChangePgination = (currentPage) => {
+    this.setState({ articles: [] });
     this.setState({ currentPage });
     const offset = (currentPage - 1) * 10;
     this.getArticleList(offset);

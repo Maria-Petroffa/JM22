@@ -1,5 +1,5 @@
 import React from 'react';
-import { Rate, Tag, Spin } from 'antd';
+import { Rate, Tag } from 'antd';
 import { HeartOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -15,8 +15,6 @@ class ArticleCard extends React.Component {
     this.state = this.props.articles;
   }
 
-  spinner = () => <Spin tip="Loading..." />;
-
   favoriteArticleChange = () => {
     const { slug, favorited } = this.state;
     const { onChangeFavorites } = this.props;
@@ -27,6 +25,11 @@ class ArticleCard extends React.Component {
     return favorited ? changeFavorite(unfavoriteArticleRequest) : changeFavorite(favoriteArticleRequest);
   }
 
+  // handleClick =(event) => {
+  //   event.stopPropagation();
+  //   this.favoriteArticleChange();
+  // }
+
   renderArticleFavorites = () => {
     const { currentUser } = this.props;
     const { favoritesCount, favorited } = this.state;
@@ -34,7 +37,7 @@ class ArticleCard extends React.Component {
     const value = () => (favorited ? 1 : 0);
 
     return (
-      <ArticleContentFavorites>
+      <ArticleContentFavorites onClick={this.handleClick}>
         <Rate disabled={disabled} value={value()} onChange={this.favoriteArticleChange} style={{ color: '#eb2f96' }} character={<HeartOutlined />} count="1" />
         <ArticleContentFavoritesCount>{favoritesCount}</ArticleContentFavoritesCount>
       </ArticleContentFavorites>

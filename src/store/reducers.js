@@ -49,7 +49,7 @@ const currentUser = (state = null, action) => {
 };
 
 const request = (state = false, action) => {
-  const { type} = action;
+  const { type } = action;
   switch (type) {
     case 'CHECK_USER_REQUEST':
       return true;
