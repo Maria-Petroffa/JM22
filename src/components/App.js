@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {
   Redirect, Route, Switch, BrowserRouter as Router,
 } from 'react-router-dom';
@@ -8,7 +7,6 @@ import { createBrowserHistory } from 'history';
 import SignIn from './form/signIn';
 import SignUp from './form/signUp';
 import Main from './main/main';
-// import ArticleList from './articles/ArticleList';
 import { Content } from './style';
 import HeaderPage from './header/header';
 import {
@@ -26,7 +24,6 @@ const PrivateRoute = ({ children, redirect, redirectTo }) => (
     render={() => (redirect ? (children) : (<Redirect to={redirectTo} />))}
   />
 );
-
 class App extends React.Component {
   componentDidMount() {
     if (getUserToken() !== null) {
@@ -36,7 +33,7 @@ class App extends React.Component {
 
   isAuthenticated = () => {
     const { currentUser } = this.props;
-    if (currentUser === 0) {
+    if (currentUser === null) {
       return false;
     }
     return true;
@@ -55,9 +52,6 @@ class App extends React.Component {
             <PrivateRoute exact path={signUpPage} redirectTo={mainPage} redirect={!this.isAuthenticated()}>
               <SignUp />
             </PrivateRoute>
-            {/* <PrivateRoute exact path={addPage} redirectTo={signInPage} redirect={this.isAuthenticated()}>
-              <ArticleCreateNew history={customHistory} />
-            </PrivateRoute> */}
             <Route
               exact
               path={addPage}

@@ -1,29 +1,23 @@
 import React from 'react';
-
 import { Form, Input, Button } from 'antd';
-
 import { Link } from 'react-router-dom';
-
 import { connect } from 'react-redux';
 import { useFormik } from 'formik';
 import {
   Label, FormHeader, FormFooter, FormTitle, FormWrap,
 } from './style';
-import {
-  authentificationUser,
-} from '../../store/actions';
+import { authentificationUser } from '../../store/actions';
 import { signUpPage } from '../../services/routs';
+import { setUserToken, authentificationUserErrorMessage } from '../../utils/helpers';
 
-const SignIn = ({
-  logInUser,
-  currentUser,
-}) => {
+const SignIn = ({ logInUser, currentUser, request }) => {
   const formik = useFormik({
     initialValues: {
       email: '',
       password: '',
     },
     onSubmit: (values) => {
+      if (request) { return; }
       const { email, password } = values;
       const user = {
         user: {
@@ -32,7 +26,15 @@ const SignIn = ({
         },
       };
 
-      logInUser(user);
+      const resultLogInUser = async () => {
+        try {
+          await logInUser(user)
+            .then((res) => setUserToken(res.data.user.token));
+        } catch (error) {
+          authentificationUserErrorMessage(error);
+        }
+      };
+      resultLogInUser();
     },
   });
 

@@ -17,10 +17,10 @@ export class ArticleEdit extends React.Component {
   }
 
   async componentDidMount() {
-    this.response();
+    this.requestArticle();
   }
 
-  async response() {
+  async requestArticle() {
     const data = await getArticleRequest(this.props.match);
     const { article } = data.data;
     this.setState({ article });
@@ -108,12 +108,12 @@ export class ArticleEdit extends React.Component {
         onSubmit={(values) => {
           const article = { article: values };
 
-          const response = async () => await updateArticleRequest(this.props.match, article);
+          const requestArticleEdit = async () => await updateArticleRequest(this.props.match, article);
           try {
-            response();
+            requestArticleEdit();
             this.props.history.replace(mainPage);
           } catch (err) {
-            if (err.name === 'Error') { response(); }
+            if (err.name === 'Error') { requestArticleEdit(); }
           }
         }}
       >

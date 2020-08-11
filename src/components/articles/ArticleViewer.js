@@ -1,9 +1,8 @@
 import React from 'react';
 import {
-  Rate, Tag, Modal, Button,
+  Rate, Tag, Modal, Button, Spin,
 } from 'antd';
 import { HeartOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
-import { parseISO, intervalToDuration, formatDuration } from 'date-fns';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
@@ -13,18 +12,21 @@ import {
   getArticleViewerRequest, deleteArticleRequest, favoriteArticleRequest, unfavoriteArticleRequest,
 } from '../../services/services';
 import { mainPage } from '../../services/routs';
+import { createdData } from '../../utils/helpers';
 
 const { confirm } = Modal;
 class ArticleViewer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = 0;
+    this.state = null;
   }
 
   async componentDidMount() {
     await getArticleViewerRequest(this.props.match)
       .then((res) => this.setState(res.data));
   }
+
+  spinner = () => <Spin tip="Loading..." />;
 
 showDeleteConfirm =(el) => {
   const deletedArticle = (el) => {
@@ -45,41 +47,27 @@ showDeleteConfirm =(el) => {
   });
 }
 
-showEditeConfirm =() => {
-  this.props.history.push(`/articles/${this.state.article.slug}/edit`);
-}
-
-createdData = (createdAt) => {
-  const start = parseISO(createdAt);
-  const end = new Date();
-  const { days, hours, minutes } = intervalToDuration({ start, end });
-
-  return `created ${formatDuration({ days, hours, minutes })} ago`;
-}
-
 favoriteArticleChange = () => {
   const { slug, favorited } = this.state.article;
-  const resp = async (func) => (
+  const changeFavorite = async (func) => (
     await func(slug)
       .then((res) => this.setState(res.data)));
 
-  return favorited ? resp(unfavoriteArticleRequest) : resp(favoriteArticleRequest);
+  return favorited ? changeFavorite(unfavoriteArticleRequest) : changeFavorite(favoriteArticleRequest);
 }
 
 renderArticleButton = () => {
   const { currentUser } = this.props;
   const { article: { slug } } = this.state;
-  if (currentUser === 0) { return null; }
+  if (currentUser === null) { return null; }
   if (currentUser.username !== this.state.article.author.username) { return null; }
   return (
     <ArticleAutorButtons>
-
       <Button type="dashed">
         <Link to={`/articles/${slug}/edit`}>
           Edit
         </Link>
       </Button>
-
       <Button onClick={() => this.showDeleteConfirm(this.state.article.slug)} type="dashed">
         Delete
       </Button>
@@ -89,12 +77,8 @@ renderArticleButton = () => {
 
 renderArticleFavorites = () => {
   const { currentUser } = this.props;
-  const { article } = this.state;
-  const {
-    favoritesCount, favorited,
-  } = article;
-
-  const disabled = currentUser === 0;
+  const { favoritesCount, favorited } = this.state.article;
+  const disabled = currentUser === null;
   const value = () => (favorited ? 1 : 0);
 
   return (
@@ -106,12 +90,11 @@ renderArticleFavorites = () => {
 }
 
 render() {
-  if (this.state === 0) { return null; }
+  if (this.state === null) { return this.spinner; }
 
-  const { article } = this.state;
   const {
     title, tagList, description, author, createdAt, body,
-  } = article;
+  } = this.state.article;
   return (
     <ArticleWrap>
       <ArticleContent>
@@ -122,7 +105,7 @@ render() {
         </ArticleContentTag>
         <ArticleContentDescription>{description}</ArticleContentDescription>
         <ArticleContentBody>{body}</ArticleContentBody>
-        <ArticleCreatedCount>{this.createdData(createdAt)}</ArticleCreatedCount>
+        <ArticleCreatedCount>{createdData(createdAt)}</ArticleCreatedCount>
       </ArticleContent>
       <ArticleAutor>
         <ArticleAutorDescription>

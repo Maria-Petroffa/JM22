@@ -3,9 +3,6 @@ import {
   authentificationUserRequest,
   currentUserRequest,
 } from '../services/services';
-import {
-  setUserToken, createUserErrorMessage, authentificationUserErrorMessage,
-} from '../utils/helpers';
 
 export const logInUserRequest = () => ({ type: 'LOGIN_USER_REQUEST' });
 export const logInUserSuccess = (response) => ({
@@ -44,10 +41,10 @@ export const createUser = (value) => async (dispatch) => {
   try {
     const response = await registrationUserRequest(value);
     dispatch(createUserSuccess(response));
-    setUserToken(response.data.user.token);
+    return (response);
   } catch (error) {
     dispatch(createUserFailure(error));
-    createUserErrorMessage(error);
+    throw error;
   }
 };
 
@@ -56,10 +53,10 @@ export const authentificationUser = (value) => async (dispatch) => {
   try {
     const response = await authentificationUserRequest(value);
     dispatch(logInUserSuccess(response));
-    setUserToken(response.data.user.token);
+    return (response);
   } catch (error) {
     dispatch(logInUserFailure(error));
-    authentificationUserErrorMessage(error);
+    throw error;
   }
 };
 
@@ -68,8 +65,9 @@ export const currentUser = (value) => async (dispatch) => {
   try {
     const response = await currentUserRequest(value);
     dispatch(checkCurrentUserSuccess(response));
-    setUserToken(response.data.user.token);
+    return (response);
   } catch (error) {
     dispatch(checkCurrentUserFailure(error));
+    throw error;
   }
 };

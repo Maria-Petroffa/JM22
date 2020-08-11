@@ -6,15 +6,15 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { useFormik } from 'formik';
 import {
-  Label, FormHeader, FormFooter, FormTitle, Line,
-  FormWrap,
+  Label, FormHeader, FormFooter, FormTitle, Line, FormWrap,
 } from './style';
 import { createUser } from '../../store/actions';
 import { signInPage } from '../../services/routs';
+import { setUserToken, createUserErrorMessage } from '../../utils/helpers';
 
-import { setUserToken } from '../../utils/helpers';
-
-const SignUp = ({ currentUser, createNewUser, newUser }) => {
+const SignUp = ({
+  currentUser, request, createNewUser, newUser,
+}) => {
   const [form] = Form.useForm();
   const formik = useFormik({
     initialValues: {
@@ -23,6 +23,7 @@ const SignUp = ({ currentUser, createNewUser, newUser }) => {
       password: '',
     },
     onSubmit: (values) => {
+      if (request) { return; }
       const { email, password, username } = values;
       const newUser = {
         user: {
@@ -31,8 +32,15 @@ const SignUp = ({ currentUser, createNewUser, newUser }) => {
           username,
         },
       };
-      createNewUser(newUser);
-      setUserToken(currentUser.token);
+      const resultCreateUser = async () => {
+        try {
+          await createNewUser(newUser)
+            .then((res) => setUserToken(res.data.user.token));
+        } catch (error) {
+          createUserErrorMessage(error);
+        }
+      };
+      resultCreateUser();
     },
   });
 

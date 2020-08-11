@@ -1,5 +1,13 @@
 import styled from 'styled-components';
 
+export const SpinnerWrap = styled.div`
+display: block;
+margin-top: 20px;
+margin-right: 50px;
+width: 100%;
+margin-left: 400px;
+`;
+
 export const ArticleWrap = styled.div`
 display: flex;
 justify-content: space-between;

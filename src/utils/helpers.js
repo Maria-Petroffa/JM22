@@ -1,3 +1,5 @@
+import { parseISO, intervalToDuration, formatDuration } from 'date-fns';
+
 export const createUserErrorMessage = (error) => {
   if (error.response.status === 422) {
     const { email, username } = error.response.data.errors;
@@ -21,8 +23,16 @@ export const authentificationUserErrorMessage = (error) => {
   }
 };
 
-export const setUserToken = (token) => { localStorage.setItem('token', token); };
+export const setUserToken = (token) => { if (token !== undefined) { localStorage.setItem('token', token); } };
 
 export const getUserToken = () => localStorage.getItem('token');
 
 export const deleteUserToken = () => { localStorage.clear(); };
+
+export const createdData = (createdAt) => {
+  const start = parseISO(createdAt);
+  const end = new Date();
+  const { days, hours, minutes } = intervalToDuration({ start, end });
+
+  return `created ${formatDuration({ days, hours, minutes })} ago`;
+};

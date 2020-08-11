@@ -6,16 +6,14 @@ import {
   Header, HeaderItem, HeaderSignIn, LogOutButton, CreateArticleButton, SingInButton, SingUpButton,
 } from './style';
 
-import {
-  logOutUser,
-} from '../../store/actions';
+import { logOutUser } from '../../store/actions';
 import { signInPage, addPage, signUpPage } from '../../services/routs';
 import { deleteUserToken } from '../../utils/helpers';
 
 class HeaderPage extends React.Component {
   isSignInHeader = () => {
     const { currentUser, logOut } = this.props;
-    if (currentUser !== 0) {
+    if (currentUser !== null) {
       return (
         <HeaderItem>
           <CreateArticleButton className="header-create-article">

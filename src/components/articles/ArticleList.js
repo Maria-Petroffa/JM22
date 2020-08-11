@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Pagination } from 'antd';
+import { Pagination, Spin } from 'antd';
 import { uniqueId } from 'lodash';
 import { listArticlesRequest } from '../../services/services';
 import ArticleCard from './ArticleCard';
-import { PaginatorWrap } from './style';
+import { PaginatorWrap, SpinnerWrap } from './style';
 
 class ArticleList extends React.Component {
   constructor(props) {
@@ -17,10 +17,13 @@ class ArticleList extends React.Component {
 
   async componentDidMount() {
     const offset = (this.state.currentPage - 1) * 10;
-    this.response(offset);
+    this.getArticleList(offset);
   }
 
-  response = async (offset) => {
+  spinner = () => <SpinnerWrap><Spin tip="Loading..." /></SpinnerWrap> ;
+
+  getArticleList = async (offset) => {
+    this.setState({ articles: [] });
     const createArticleList = (list) => {
       this.setState({ articles: list });
     };
@@ -35,20 +38,20 @@ class ArticleList extends React.Component {
           createArticleList(articles);
         });
     } catch (err) {
-      if (err.name === 'Error') { this.response(); }
+      if (err.name === 'Error') { this.getArticleList(); }
     }
   }
 
   onChangePgination = (currentPage) => {
     this.setState({ currentPage });
     const offset = (currentPage - 1) * 10;
-    this.response(offset);
+    this.getArticleList(offset);
   }
 
   onChangeFavorites = () => {
     const { currentPage } = this.state;
     const offset = (currentPage - 1) * 10;
-    this.response(offset);
+    this.getArticleList(offset);
   }
 
 renderArticleList = () => {
@@ -57,11 +60,12 @@ renderArticleList = () => {
 }
 
 renderPaginator = () => {
-  const { articlesCount } = this.state;
+  const { articlesCount, currentPage } = this.state;
 
   return (
     <PaginatorWrap>
       <Pagination
+        current={currentPage}
         showSizeChanger={false}
         pageSize="10"
         size="small"
@@ -73,6 +77,7 @@ renderPaginator = () => {
 }
 
 render() {
+  if (this.state.articles.length === 0) { return this.spinner(); }
   return (
     <>
       {this.renderArticleList()}

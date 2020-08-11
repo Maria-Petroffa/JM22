@@ -1,15 +1,13 @@
 import React from 'react';
-import { Rate, Tag } from 'antd';
+import { Rate, Tag, Spin } from 'antd';
 import { HeartOutlined } from '@ant-design/icons';
-import { parseISO, intervalToDuration, formatDuration } from 'date-fns';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
   ArticleWrap, ArticleContentFavoritesCount, ArticleCreatedCount, ArticleAutorFoto, ArticleAutorDescription, ArticleAutorName, ArticleContentFavorites, ArticleContent, ArticleAutor, ArticleContentTitle, ArticleContentTag, ArticleContentDescription,
 } from './style';
-import {
-  favoriteArticleRequest, unfavoriteArticleRequest,
-} from '../../services/services';
+import { favoriteArticleRequest, unfavoriteArticleRequest } from '../../services/services';
+import { createdData } from '../../utils/helpers';
 
 class ArticleCard extends React.Component {
   constructor(props) {
@@ -17,32 +15,22 @@ class ArticleCard extends React.Component {
     this.state = this.props.articles;
   }
 
-  createdData = (createdAt) => {
-    const start = parseISO(createdAt);
-    const end = new Date();
-    const { days, hours, minutes } = intervalToDuration({ start, end });
+  spinner = () => <Spin tip="Loading..." />;
 
-    return `created ${formatDuration({ days, hours, minutes })} ago`;
-  }
-
-  favoriteArticleChange = (event) => {
-    //
+  favoriteArticleChange = () => {
     const { slug, favorited } = this.state;
     const { onChangeFavorites } = this.props;
-    const resp = async (func) => (
+    const changeFavorite = async (func) => (
       await func(slug)
         .then((res) => this.setState(res.data))
         .then(() => onChangeFavorites()));
-    return favorited ? resp(unfavoriteArticleRequest) : resp(favoriteArticleRequest);
+    return favorited ? changeFavorite(unfavoriteArticleRequest) : changeFavorite(favoriteArticleRequest);
   }
 
   renderArticleFavorites = () => {
     const { currentUser } = this.props;
-    const {
-      favoritesCount, favorited,
-    } = this.state;
-
-    const disabled = currentUser === 0;
+    const { favoritesCount, favorited } = this.state;
+    const disabled = currentUser === null;
     const value = () => (favorited ? 1 : 0);
 
     return (
@@ -59,9 +47,7 @@ class ArticleCard extends React.Component {
       title, tagList, description, author, createdAt, slug,
     } = articles;
     return (
-
       <ArticleWrap id={slug}>
-
         <ArticleContent>
           <ArticleContentTitle>{title}</ArticleContentTitle>
           {this.renderArticleFavorites()}
@@ -69,9 +55,8 @@ class ArticleCard extends React.Component {
             <ArticleContentTag>
               {tagList.map((el) => <Tag key={el} color="default">{el}</Tag>)}
             </ArticleContentTag>
-
             <ArticleContentDescription>{description}</ArticleContentDescription>
-            <ArticleCreatedCount>{this.createdData(createdAt)}</ArticleCreatedCount>
+            <ArticleCreatedCount>{createdData(createdAt)}</ArticleCreatedCount>
           </Link>
         </ArticleContent>
         <Link to={`/articles/${slug}`}>
@@ -83,7 +68,6 @@ class ArticleCard extends React.Component {
           </ArticleAutor>
         </Link>
       </ArticleWrap>
-
     );
   }
 }
